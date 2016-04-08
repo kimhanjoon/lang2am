@@ -1,0 +1,15 @@
+{{#each translations}}
+  <tr data-code="{{{code}}}">
+    <td data-code="{{{code}}}">{{{code}}}<i class="material-icons right red-text only-hover copy">content_copy</i></td>
+    <td>{{referenceCount}}</td>
+    <td>{{{textEn}}}<i class="material-icons right red-text only-hover edit">create</i></td>
+    <td>{{{textKo}}}<i class="material-icons right red-text only-hover edit">create</i></td>
+    <td>{{{textZh}}}<i class="material-icons right red-text only-hover edit">create</i></td>
+  </tr>
+{{else}}
+  <tr>
+    <td colspan="5">
+    <a class="waves-effect waves-light btn-large"><i class="material-icons right">cloud</i>new code</a>
+    </td>
+  </tr>
+{{/each}}

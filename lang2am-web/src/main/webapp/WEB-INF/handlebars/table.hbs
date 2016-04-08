@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<title>lang2am web</title>
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css" media="screen,projection" />
+<style type="text/css">
+html {
+	font-family: Arial, "Microsoft YaHei New", "Microsoft Yahei", "微软雅黑", 宋体,
+		SimSun, STXihei, "华文细黑", "맑은 고딕", "Malgun Gothic", "돋움", "Dotum",
+		sans-serif;
+}
+#search_box {
+    margin-top: 0;
+}
+#search_box .material-icons.search {
+    position: absolute;
+    top: 10px;
+    left: -35px;
+    cursor: pointer;
+}
+#search_box .material-icons.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+#search_box input {
+    margin: 0;
+}
+#newcode_table th, #newcode_table td{
+    padding: 5px;
+}
+#newcode_table input[type=text]{
+    height: 2rem;
+    margin: 0 0 0 0;
+}
+.underline {
+	text-decoration: underline;
+}
+#translations_table td {
+    padding-right: 35px;
+}
+#translations_table i.material-icons.only-hover {
+    font-size: 20px;
+    margin-left: 0;
+    margin-right: -25px;
+    display: none;
+}
+#translations_table td:hover i.material-icons.only-hover {
+    display: inherit;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">Logo</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a class="btn" id="btnNewcode">new code</a></li>
+      </ul>
+    </div>
+  </nav>
+  <main>
+    <div class="row" id="newcode_card" style="display: none;">
+      <div class="col s4">
+      <div class="card">
+        <div class="card-content">
+        	<span class="card-title">Shortcuts</span>
+        	<p>Ctrl+Alt+F : <span class="underline">F</span>ocus in search</p>
+        	<p>Ctrl+Alt+R : <span class="underline">R</span>efresh search result</p>
+        	<p>Ctrl+Alt+O : <span class="underline">O</span>pen new code box</p>
+        	<p>Ctrl+Alt+C : <span class="underline">C</span>lose new code box</p>
+        	<p>Ctrl+Alt+S : <span class="underline">S</span>ave new code (only work in new code box)</p>
+        </div>
+      </div>
+      </div>
+      <div class="col s8">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">New Code</span>
+            <table id="newcode_table">
+              <colgroup>
+                <col width="70px" >
+                <col width="">
+                <col width="200px">
+              </colgroup>
+              <tbody>
+                <tr>
+                  <th>Code</th>
+                  <td><input id="code" type="text" placeholder="Leave blank to get a new code." maxlength="2000"></td>
+                  <th>Screenshot</td>
+                </tr>
+                <tr>
+                  <th>English</th>
+                  <td><input id="en" type="text" placeholder="Required." required></td>
+                  <td rowspan="3"></td>
+                </tr>
+                <tr>
+                  <th>Korean</th>
+                  <td><input id="ko" type="text" placeholder="Leave blank to use English." maxlength="2000"></td>
+                </tr>
+                <tr>
+                  <th>Chinese</th>
+                  <td><input id="zh" type="text" placeholder="Leave blank to use English." maxlength="2000"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-action">
+            <a href="#" id="btnCancelNewcode">Cancel</a> <a href="#" id="btnSaveNewcode" class="right">Save</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+      <div class="card hoverable">
+        <div class="card-content">
+        <span class="card-title">Translation</span>
+        <div class="input-field right" id="search_box" >
+          <i class="material-icons search small">search</i>
+          <input id="search" type="text" placeholder="search" size="50">
+          <i class="material-icons close small">close</i>
+        </div>
+        <table class="bordered highlight" >
+          <colgroup>
+            <col width="150px" >
+            <col width="100px">
+            <col width="25%">
+            <col width="25%">
+            <col width="25%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th data-field="code">Code</th>
+              <th data-field="referencedCount">Reference</th>
+              <th data-field="textEn">English</th>
+              <th data-field="textKo">Korean</th>
+              <th data-field="textZh">Chinese</th>
+            </tr>
+          </thead>
+          <tbody id="translations_table">
+          </tbody>
+        </table>
+      </div>
+      </div>
+      </div>
+    </div>
+  </main>
+  <script src="js/underscore-min.js"></script>
+  <script src="js/jquery-2.2.2.min.js"></script>
+  <script src="js/jquery.paste_image_reader.js"></script>
+  <script src="js/handlebars-v4.0.5.js"></script>
+  <script src="materialize/js/materialize.min.js"></script>
+  <script src="js/shortcut.js"></script>
+  <script src="table.js"></script>
+</body>
+</html>

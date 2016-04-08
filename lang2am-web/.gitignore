@@ -1,0 +1,8 @@
+### Eclipse ###
+.metadata
+bin/
+
+
+### Gradle ###
+.gradle
+build/

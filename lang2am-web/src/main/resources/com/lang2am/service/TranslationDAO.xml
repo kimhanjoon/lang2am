@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lang2am.service.TranslationDAO">
+    
+    <select id="selectMaxCode" resultType="String">
+    select lpad(max(right(a.CODE, 5)) + 1, 5, '0')
+    from TB_TRANSLATION a
+   	where a.CODE like 'GEN_SGP_%'
+   	    and right(a.CODE, 5) &lt; '10000'
+    </select>
+    
+    <insert id="insert">
+   	insert into TB_TRANSLATION
+		(CODE, LOCALE, TEXT, COMMENT, CREATED_TIME, CREATED_IP, MODIFIED_TIME, MODIFIED_IP)
+	values (#{code}, #{locale}, #{text}, #{comment}, NOW(), #{createdIp}, NOW(), #{modifiedIp})
+    </insert>
+    
+    <update id="update">
+	update TB_TRANSLATION
+	set TEXT = #{text}
+	    , STATUS = #{status}
+		, COMMENT = #{comment}
+		, MODIFIED_TIME = now()
+		, MODIFIED_IP = #{modifiedIp}
+	where CODE = #{code}
+		and LOCALE = #{locale}
+    </update>
+    
+    <update id="updateStatus">
+    update TB_TRANSLATION
+    set STATUS = #{status}
+        , COMMENT = #{comment}
+        , MODIFIED_TIME = now()
+        , MODIFIED_IP = #{modifiedIp}
+    where CODE = #{code}
+        and LOCALE != #{locale}
+    </update>
+    
+</mapper>

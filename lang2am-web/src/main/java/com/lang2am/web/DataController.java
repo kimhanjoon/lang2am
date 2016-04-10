@@ -65,8 +65,8 @@ public class DataController {
 		}
 	}
 
-	@RequestMapping(value="/text", method=RequestMethod.POST)
-	public void insert(@RequestParam(value="code") String code
+	@RequestMapping(value="/text", method=RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	public TextVO insert(@RequestParam(value="code") String code
 			, @RequestParam(value="ko") String ko
 			, @RequestParam(value="en") String en
 			, @RequestParam(value="zh") String zh
@@ -74,7 +74,7 @@ public class DataController {
 
 		// 5자리의 숫자만 가능
 		if( !StringUtils.isBlank(code) ) {
-			if( StringUtils.containsOnly("0123456789", code) ) {
+			if( !StringUtils.containsOnly(code, "0123456789") ) {
 				throw new IllegalArgumentException("Code must be digits.");
 			}
 			if( StringUtils.length(code) != 5 ) {
@@ -91,8 +91,10 @@ public class DataController {
 			newcode = textDAO.newcode();
 		}
 
+		newcode = "GEN_SGP_I_" + newcode;
+
 		TextVO dvo = TextVO.builder()
-				.code("GEN_SGP_I_" + newcode)
+				.code(newcode)
 				.status(UNCONFIRMED)
 				.comment("inserted by lang2am-web")
 				.createdIp(request.getRemoteAddr())
@@ -121,6 +123,7 @@ public class DataController {
 		}
 		textDAO.insert(dvo);
 
+		return TextVO.builder().code(newcode).build();
 	}
 
 }

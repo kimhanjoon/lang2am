@@ -53,7 +53,23 @@ $(function() {
 		$("#newcode_card").hide();
 	});
 	$("#btnSaveNewcode").click(function() {
-		Materialize.toast('Done', 1500);
+		$.post("text/", {
+			code: $("#code").val(),
+			ko: $("#ko").val(), 
+			en: $("#en").val(), 
+			zh: $("#zh").val(),
+		})
+		.done(function(data) {
+    		Materialize.toast('Saved.', 1500);
+    		copyToClipboard(data.code);
+    		$("#code,#ko,#en,#zh").val("");
+    		$("#en").focus();
+    		$("#search").val(data.code);
+    		search_texts(data.code);
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+    		Materialize.toast('Failed : ' + jqXHR.responseJSON.message, 3000);
+		});
 	});
 	
     $('#newcode_table').pasteImageReader(function(result) {
@@ -63,35 +79,19 @@ $(function() {
     	$("#saveImage").append($img);
     });
 	
-    function saveNewcode(code, locale, text) {
-    	$.ajax({
-    		method: "PUT",
-    		url: 'text/' + code + '/' + locale,
-    		data: {
-    			text: text
-    		}
-    	})
-    	.done(function() {
-    		Materialize.toast('Saved', 1500);
-    	})
-    	.fail(function(jqXHR) {
-    		Materialize.toast('Failed : ' + jqXHR.error.message, 3000);
-    	});
-    }
-    
 	var _last_query = "";
-	search_texts(_last_query);
+	search_texts("");
 	$("#search").keyup( _.debounce(function() {
 		var query = $("#search").val();
 
 		if( _last_query !== query ) {
-			_last_query = query;
-			search_texts(_last_query);
+			search_texts(query);
 		}
 		
 	}, 1000));
 	
 	function search_texts(query) {
+		_last_query = query;
 		$("#texts_table").empty();
 		$.ajax({
     		method: "GET",

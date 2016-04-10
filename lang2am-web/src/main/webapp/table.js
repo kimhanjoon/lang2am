@@ -68,7 +68,7 @@ $(function() {
     		search_texts(data.code);
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
-    		Materialize.toast('Failed : ' + jqXHR.responseJSON.message, 3000);
+    		Materialize.toast('Failed : ' + jqXHR.responseJSON.message, 3000, "red accent-3");
 		});
 	});
 	
@@ -123,5 +123,64 @@ $(function() {
 	
 	$("#texts_table").on("click", "i.copy", function(e) {
 		copyToClipboard($(this).closest("td").data("code"));
-	})
+	});
+	
+
+	//XXX pre-complie
+	var edittext_table;
+	$.get("edittext_table.hbs", function(template_text){
+		edittext_table = Handlebars.compile(template_text);
+	});
+	
+	$("#texts_table").on("click", "i.edit", function(e) {
+		var $td = $(this).closest("td");
+		var $textarea = $(this).closest("td");
+		var code = $td.data("code");
+		var locale = $td.data("locale");
+		$.get("text/" + code + "/" + locale, function(data) {
+			$td.empty().append(edittext_table(data));
+			$td.find("textarea").focus();
+		});
+	});
+	
+
+	$("#btnEdittext").click(function() {
+		$("#edittext_card").show();
+		$("#edittext_text").focus();
+	});
+	$("#btnCancelEdittext").click(function() {
+		$("#edittext_card").hide();
+		var $td = $(this).closest("td");
+		var $textarea = $(this).closest("textarea");
+		var code = $textarea.data("code");
+		var locale = $textarea.data("locale");
+		$.get("text/" + code + "/" + locale, function(data) {
+			$td.empty().append(edittext_table(data));
+			$td.find("textarea").focus();
+		});
+	});
+	$("#btnSaveEdittext").click(function() {
+		var $td = $(this).closest("td");
+		var $textarea = $td.find("textarea");
+		var code = $textarea.data("code");
+		var locale = $textarea.data("locale");
+		$.ajax({
+    		method: "PUT",
+    		url: 'langtree/' + code + '/' + locale,
+    		data: {
+    			text: $textarea.val()
+    		}
+    	})
+    	.done(function() {
+    		Materialize.toast('Saved.', 1500);
+    		copyToClipboard(data.code);
+    		$("#code,#ko,#en,#zh").val("");
+    		$("#en").focus();
+    		$("#search").val(data.code);
+    		search_texts(data.code);
+    	})
+    	.fail(function(jqXHR) {
+    		Materialize.toast('Failed : ' + jqXHR.responseJSON.message, 3000, "red accent-3");
+    	});
+	});
 });

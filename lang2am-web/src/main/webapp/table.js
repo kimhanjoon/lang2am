@@ -15,7 +15,9 @@ function copyToClipboard(text) {
 function highlight(text, queryRegExp) {
 	return text.replace(queryRegExp, '<span class="yellow">$1</span>')
 }
-
+Handlebars.registerHelper('nvl', function(first, second) {
+	return first ? first : second;
+});
 $(function() {
 
 	$("#search").focus();
@@ -103,10 +105,10 @@ $(function() {
     			var queryRegExp = new RegExp("("+escapeRegExp(query)+")", "gi");
         		console.log(query, " => ", queryRegExp);
     			_.each(data, function(e) {
-    				e.code = highlight(e.code, queryRegExp);
-    				e.textEn = highlight(e.textEn, queryRegExp);
-    				e.textKo = highlight(e.textKo, queryRegExp);
-    				e.textZh = highlight(e.textZh, queryRegExp);
+    				e.code_highlight = highlight(e.code, queryRegExp);
+    				e.textEn_highlight = highlight(e.textEn, queryRegExp);
+    				e.textKo_highlight = highlight(e.textKo, queryRegExp);
+    				e.textZh_highlight = highlight(e.textZh, queryRegExp);
     			});
     		}
 

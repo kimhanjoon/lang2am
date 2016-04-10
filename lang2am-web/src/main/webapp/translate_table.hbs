@@ -1,10 +1,10 @@
 {{#each texts}}
-  <tr data-code="{{{code}}}">
-    <td data-code="{{{code}}}">{{{code}}}<i class="material-icons right red-text only-hover copy">content_copy</i></td>
+  <tr data-code="{{code}}">
+    <td data-code="{{code}}">{{{nvl code_highlight code}}}<i class="material-icons right red-text only-hover copy">content_copy</i></td>
     <td>{{referenceCount}}</td>
-    <td>{{{textEn}}}<i class="material-icons right red-text only-hover edit">create</i></td>
-    <td>{{{textKo}}}<i class="material-icons right red-text only-hover edit">create</i></td>
-    <td>{{{textZh}}}<i class="material-icons right red-text only-hover edit">create</i></td>
+    <td>{{{nvl textEn_highlight textEn}}}<i class="material-icons right red-text only-hover edit">create</i></td>
+    <td>{{{nvl textKo_highlight textKo}}}<i class="material-icons right red-text only-hover edit">create</i></td>
+    <td>{{{nvl textZh_highlight textZh}}}<i class="material-icons right red-text only-hover edit">create</i></td>
   </tr>
 {{else}}
   <tr>

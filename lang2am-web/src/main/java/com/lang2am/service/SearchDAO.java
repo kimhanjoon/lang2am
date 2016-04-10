@@ -7,7 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.lang2am.domain.Translation;
+import com.lang2am.domain.TextVO;
 
 @Component
 public class SearchDAO {
@@ -20,7 +20,7 @@ public class SearchDAO {
 	}
 
 	public List<Map> list(String q) {
-		Translation dvo = Translation.builder().text(q).build();
+		TextVO dvo = TextVO.builder().text(q).build();
 		return this.sqlSessionTemplate.selectList("listAllText", dvo);
 	}
 

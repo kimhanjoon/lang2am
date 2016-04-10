@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Translation {
+public class TextVO {
 
 	private String code;
 	private String type;

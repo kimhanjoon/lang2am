@@ -6,6 +6,6 @@
     </settings>
     <mappers>
         <mapper resource="com/lang2am/service/SearchDAO.xml"/>
-        <mapper resource="com/lang2am/service/TranslationDAO.xml"/>
+        <mapper resource="com/lang2am/service/TextDAO.xml"/>
     </mappers>
 </configuration>

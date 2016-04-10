@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lang2am.service.TranslationDAO">
+<mapper namespace="com.lang2am.service.SearchDAO">
     
     <select id="listAllText" resultType="map">
 	select a.CODE as code
@@ -11,14 +11,14 @@
         , max(case when a.LOCALE = 'en_US' then a.STATUS else null end) as statusEn
 		, max(case when a.LOCALE = 'zh_CN' then a.TEXT else null end) as textZh
 		, max(case when a.LOCALE = 'zh_CN' then a.STATUS else null end) as statusZh
-		, (select count(1) from TB_REFERENCE b where b.code = a.CODE) as referenceCount
-	from TB_TRANSLATION a
+		, (select count(1) from TB_REFERER b where b.code = a.CODE) as referenceCount
+	from TB_TEXT a
 	where 1=1
 	<if test="text != null">
         and (
             exists (
 	            select 1 
-	            from TB_TRANSLATION b 
+	            from TB_TEXT b 
 	            where b.CODE = a.CODE 
 	                and b.TEXT like concat('%', replace(replace(#{text},'%','\%'),'_','\_'),'%')
             )

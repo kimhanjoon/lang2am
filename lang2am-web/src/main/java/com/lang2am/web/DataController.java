@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.lang2am.domain.Translation;
+import com.lang2am.domain.TextVO;
 import com.lang2am.service.SearchDAO;
-import com.lang2am.service.TranslationDAO;
+import com.lang2am.service.TextDAO;
 
 @RestController
 public class DataController {
@@ -25,20 +25,20 @@ public class DataController {
 	private SearchDAO searchDAO;
 
 	@Autowired
-	private TranslationDAO translationDAO;
+	private TextDAO textDAO;
 
-	@RequestMapping(value="/translation", method=RequestMethod.GET)
+	@RequestMapping(value="/text", method=RequestMethod.GET)
 	public String list(@RequestParam(value="q", required=false) String q) {
 		return new Gson().toJson(searchDAO.list(q));
 	}
 
-	@RequestMapping(value="/translation/{code}/{locale}", method=RequestMethod.PUT)
+	@RequestMapping(value="/text/{code}/{locale}", method=RequestMethod.PUT)
 	public void update(@PathVariable(value="code") String code
 			, @PathVariable(value="locale") String locale
 			, @RequestParam(value="text") String text
 			, HttpServletRequest request) {
 
-		Translation dvo = Translation.builder()
+		TextVO dvo = TextVO.builder()
 				.code(code)
 				.locale(locale)
 				.text(text)
@@ -47,25 +47,25 @@ public class DataController {
 				.modifiedIp(request.getRemoteAddr())
 				.build();
 
-		int updatecount = translationDAO.update(dvo);
+		int updatecount = textDAO.update(dvo);
 		if( updatecount == 0 ) {
 
 			//TODO 해당 언어만 누락된 거면 insert
 
 			dvo.setComment("inserted by lang2am-web");
 			dvo.setCreatedIp(request.getRemoteAddr());
-			translationDAO.insert(dvo);
+			textDAO.insert(dvo);
 		}
 
 		// 기준언어인 영어를 변경한 경우에는 나머지 언어들도 다시 검토한다.
 		if( "en_US".equals(locale) ) {
 			dvo.setStatus(UNCONFIRMED);
 			dvo.setComment("unconfirmed by lang2am-web");
-			translationDAO.updateStatus(dvo);
+			textDAO.updateStatus(dvo);
 		}
 	}
 
-	@RequestMapping(value="/translation", method=RequestMethod.POST)
+	@RequestMapping(value="/text", method=RequestMethod.POST)
 	public void insert(@RequestParam(value="code") String code
 			, @RequestParam(value="ko") String ko
 			, @RequestParam(value="en") String en
@@ -88,10 +88,10 @@ public class DataController {
 		String newcode = code;
 
 		if( StringUtils.isBlank(code) ) {
-			newcode = translationDAO.newcode();
+			newcode = textDAO.newcode();
 		}
 
-		Translation dvo = Translation.builder()
+		TextVO dvo = TextVO.builder()
 				.code("GEN_SGP_I_" + newcode)
 				.status(UNCONFIRMED)
 				.comment("inserted by lang2am-web")
@@ -101,7 +101,7 @@ public class DataController {
 
 		dvo.setLocale("en_US");
 		dvo.setText(en);
-		translationDAO.insert(dvo);
+		textDAO.insert(dvo);
 
 		dvo.setLocale("ko_KR");
 		if( StringUtils.isNotBlank(ko) ) {
@@ -110,7 +110,7 @@ public class DataController {
 		else {
 			dvo.setText(en);
 		}
-		translationDAO.insert(dvo);
+		textDAO.insert(dvo);
 
 		dvo.setLocale("zh_CN");
 		if( StringUtils.isNotBlank(zh) ) {
@@ -119,7 +119,7 @@ public class DataController {
 		else {
 			dvo.setText(en);
 		}
-		translationDAO.insert(dvo);
+		textDAO.insert(dvo);
 
 	}
 

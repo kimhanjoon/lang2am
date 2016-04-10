@@ -1,3 +1,6 @@
+/**
+ * http://stackoverflow.com/a/3561711
+ */
 function escapeRegExp(s) {
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 }
@@ -20,7 +23,7 @@ $(function() {
 		$("#search").focus();
 	});
 	shortcut.add("Ctrl+Alt+R",function() {
-		search_translations(_last_query);
+		search_texts(_last_query);
 	});
 	shortcut.add("Ctrl+Alt+O",function() {
 		$("#btnNewcode").click();
@@ -61,7 +64,7 @@ $(function() {
     function saveNewcode(code, locale, text) {
     	$.ajax({
     		method: "PUT",
-    		url: 'translation/' + code + '/' + locale,
+    		url: 'text/' + code + '/' + locale,
     		data: {
     			text: text
     		}
@@ -75,22 +78,22 @@ $(function() {
     }
     
 	var _last_query = "";
-	search_translations(_last_query);
+	search_texts(_last_query);
 	$("#search").keyup( _.debounce(function() {
 		var query = $("#search").val();
 
 		if( _last_query !== query ) {
 			_last_query = query;
-			search_translations(_last_query);
+			search_texts(_last_query);
 		}
 		
 	}, 1000));
 	
-	function search_translations(query) {
-		$("#translations_table").empty();
+	function search_texts(query) {
+		$("#texts_table").empty();
 		$.ajax({
     		method: "GET",
-    		url: 'translation',
+    		url: 'text',
     		data: {q:query},
     		dataType: "json",
     	})
@@ -107,8 +110,8 @@ $(function() {
     			});
     		}
 
-			$("#translations_table").append(translate_table({
-				translations: data,
+			$("#texts_table").append(translate_table({
+				texts: data,
 			}));
     	})
     	.fail(function(jqXHR) {
@@ -116,7 +119,7 @@ $(function() {
     	});
 	}
 	
-	$("#translations_table").on("click", "i.copy", function(e) {
+	$("#texts_table").on("click", "i.copy", function(e) {
 		copyToClipboard($(this).closest("td").data("code"));
 	})
 });

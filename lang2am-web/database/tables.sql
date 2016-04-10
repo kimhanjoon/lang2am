@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS `TB_CODE` (
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
 
--- 테이블 lang2am의 구조를 덤프합니다. TB_REFERENCE
-CREATE TABLE IF NOT EXISTS `TB_REFERENCE` (
+-- 테이블 lang2am의 구조를 덤프합니다. TB_REFERER
+CREATE TABLE IF NOT EXISTS `TB_REFERER` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `CODE` varchar(50) NOT NULL,
   `REFERER_TYPE` varchar(50) DEFAULT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `TB_SCREENSHOT` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `CODE` varchar(50) NOT NULL,
   `LOCALE` varchar(10) NOT NULL,
-  `IMAGE` longtext NOT NULL,
+  `SCREENSHOT` longtext NOT NULL,
   `CREATED_TIME` datetime DEFAULT NULL,
   `CREATED_IP` varchar(50) DEFAULT NULL,
   `CREATED_ID` varchar(50) DEFAULT NULL,
@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `TB_TAG` (
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
 
--- 테이블 lang2am의 구조를 덤프합니다. TB_TRANSLATION
-CREATE TABLE IF NOT EXISTS `TB_TRANSLATION` (
+-- 테이블 lang2am의 구조를 덤프합니다. TB_TEXT
+CREATE TABLE IF NOT EXISTS `TB_TEXT` (
   `CODE` varchar(50) NOT NULL,
   `LOCALE` varchar(10) NOT NULL,
   `TEXT` varchar(4000) NOT NULL,
@@ -97,8 +97,8 @@ CREATE TABLE IF NOT EXISTS `TB_TRANSLATION` (
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
 
--- 테이블 lang2am의 구조를 덤프합니다. TB_TRANSLATION_HISTORY
-CREATE TABLE IF NOT EXISTS `TB_TRANSLATION_HISTORY` (
+-- 테이블 lang2am의 구조를 덤프합니다. TB_TEXT_HISTORY
+CREATE TABLE IF NOT EXISTS `TB_TEXT_HISTORY` (
   `CODE` varchar(50) NOT NULL,
   `LOCALE` varchar(10) NOT NULL,
   `CHANGED_TIME` datetime NOT NULL,

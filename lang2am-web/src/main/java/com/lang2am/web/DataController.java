@@ -32,8 +32,8 @@ public class DataController {
 		return new Gson().toJson(searchDAO.list(q));
 	}
 
-	@RequestMapping(value="/text/{code}/{locale}", method=RequestMethod.PUT)
-	public void update(@PathVariable(value="code") String code
+	@RequestMapping(value="/text/{code}/{locale}", method=RequestMethod.PUT, produces = "application/json; charset=UTF-8")
+	public TextVO update(@PathVariable(value="code") String code
 			, @PathVariable(value="locale") String locale
 			, @RequestParam(value="text") String text
 			, HttpServletRequest request) {
@@ -63,6 +63,17 @@ public class DataController {
 			dvo.setComment("unconfirmed by lang2am-web");
 			textDAO.updateStatus(dvo);
 		}
+		
+		return TextVO.builder().code(code).locale(locale).text(text).build();
+	}
+	
+
+	@RequestMapping(value="/text/{code}/{locale}", method=RequestMethod.GET)
+	public TextVO select(@PathVariable(value="code") String code
+			, @PathVariable(value="locale") String locale
+			, HttpServletRequest request) {
+		TextVO dvo = TextVO.builder().code(code).locale(locale).build();
+		return textDAO.select(dvo);
 	}
 
 	@RequestMapping(value="/text", method=RequestMethod.POST, produces = "application/json; charset=UTF-8")

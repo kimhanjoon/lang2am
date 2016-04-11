@@ -4,6 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lang2am.service.TextDAO">
     
+    <select id="select" resultType="com.lang2am.domain.TextVO">
+    select CODE, LOCALE, TEXT, COMMENT, STATUS, CREATED_TIME, CREATED_IP, MODIFIED_TIME, MODIFIED_IP
+    from TB_TEXT a
+   	where a.CODE = #{code}
+   		and a.LOCALE = #{locale}
+    </select>
+    
     <select id="selectMaxCode" resultType="String">
     select lpad(max(right(a.CODE, 5)) + 1, 5, '0')
     from TB_TEXT a

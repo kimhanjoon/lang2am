@@ -134,50 +134,38 @@ $(function() {
 	
 	$("#texts_table").on("click", "i.edit", function(e) {
 		var $td = $(this).closest("td");
-		var $textarea = $(this).closest("td");
-		var code = $td.data("code");
+		var code = $td.closest("tr").data("code");
 		var locale = $td.data("locale");
 		$.get("text/" + code + "/" + locale, function(data) {
-			$td.empty().append(edittext_table(data));
+			$td.find(".text,i.edit").hide();
+			$td.append(edittext_table(data));
 			$td.find("textarea").focus();
 		});
 	});
 	
-
-	$("#btnEdittext").click(function() {
-		$("#edittext_card").show();
-		$("#edittext_text").focus();
-	});
-	$("#btnCancelEdittext").click(function() {
-		$("#edittext_card").hide();
+	$("#texts_table").on("click", ".cancel-edittext", function(e) {
 		var $td = $(this).closest("td");
-		var $textarea = $(this).closest("textarea");
-		var code = $textarea.data("code");
-		var locale = $textarea.data("locale");
-		$.get("text/" + code + "/" + locale, function(data) {
-			$td.empty().append(edittext_table(data));
-			$td.find("textarea").focus();
-		});
+		$td.find(".text-edittext, .edittext").remove();
+		$td.find(".text").show();
+		$td.find("i.edit").css('display','');
 	});
-	$("#btnSaveEdittext").click(function() {
+	
+	$("#texts_table").on("click", ".save-edittext", function(e) {
 		var $td = $(this).closest("td");
-		var $textarea = $td.find("textarea");
-		var code = $textarea.data("code");
-		var locale = $textarea.data("locale");
+		var code = $td.closest("tr").data("code");
+		var locale = $td.data("locale");
 		$.ajax({
     		method: "PUT",
-    		url: 'langtree/' + code + '/' + locale,
+    		url: 'text/' + code + '/' + locale,
     		data: {
-    			text: $textarea.val()
+    			text: $td.find("textarea").val()
     		}
     	})
-    	.done(function() {
+    	.done(function(data) {
     		Materialize.toast('Saved.', 1500);
-    		copyToClipboard(data.code);
-    		$("#code,#ko,#en,#zh").val("");
-    		$("#en").focus();
-    		$("#search").val(data.code);
-    		search_texts(data.code);
+    		$td.find(".text-edittext, .edittext").remove();
+    		$td.find(".text").text(data.text).show();
+    		$td.find("i.edit").css('display','');
     	})
     	.fail(function(jqXHR) {
     		Materialize.toast('Failed : ' + jqXHR.responseJSON.message, 3000, "red accent-3");

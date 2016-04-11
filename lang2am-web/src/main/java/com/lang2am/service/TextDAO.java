@@ -12,6 +12,10 @@ public class TextDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 
+	public TextVO select(TextVO dvo) {
+		return this.sqlSessionTemplate.selectOne("select", dvo);
+	}
+	
 	public int insert(TextVO dvo) {
 		return this.sqlSessionTemplate.insert("insert", dvo);
 	}

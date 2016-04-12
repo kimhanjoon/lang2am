@@ -12,23 +12,25 @@ html {
 		SimSun, STXihei, "华文细黑", "맑은 고딕", "Malgun Gothic", "돋움", "Dotum",
 		sans-serif;
 }
+nav .brand-logo {
+    margin-left: 10px;
+}
 #search_box {
     margin-top: 0;
+    width: 45%;
+    display: inline-block;
 }
 #search_box .material-icons.search {
-    position: absolute;
-    top: 10px;
-    left: -35px;
-    cursor: pointer;
-}
-#search_box .material-icons.close {
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
 }
-#search_box input {
-    margin: 0;
+.results {
+    font-size: 16px;
+}
+.refresh {
+    cursor: pointer;
 }
 #newcode_table th, #newcode_table td{
     padding: 5px;
@@ -61,14 +63,17 @@ textarea.text-edittext {
     padding: 10px;
     white-space: pre;
 }
+.no-data {
+    padding: 100px 0;
+}
 </style>
 </head>
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a class="btn" id="btnNewcode">new code</a></li>
+      <a href="#" class="brand-logo">Lang2am - Web</a>
+      <ul class="right">
+        <li><a class="btn" id="btnNewcode">+ new code</a></li>
       </ul>
     </div>
   </nav>
@@ -127,50 +132,47 @@ textarea.text-edittext {
     </div>
     <div class="row">
       <div class="col s12">
-      <div class="card hoverable">
-        <div class="card-content">
-        <span class="card-title">text</span>
-        <div class="input-field right" id="search_box" >
-          <i class="material-icons search small">search</i>
-          <input id="search" type="text" placeholder="search" size="50">
-          <i class="material-icons close small">close</i>
+        <div class="card hoverable">
+          <div class="card-content">
+            <div class="card-title">
+            
+              <div class="input-field" id="search_box" >
+                <input id="search" type="text" placeholder="Search" size="50">
+                <i class="material-icons search small">search</i>
+              </div>
+            
+              <div class="right">
+                <div class="valign-wrapper">
+                  <div class="valign right-align results"></div>
+                  <i class="material-icons refresh right small">refresh</i>
+              </div>
+              </div>
+            </div>
+            <table class="bordered highlight" >
+              <colgroup>
+                <col width="150px" >
+                <col width="100px">
+                <col width="25%">
+                <col width="25%">
+                <col width="25%">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th data-field="code">Code</th>
+                  <th data-field="referencedCount">Reference</th>
+                  <th data-field="textEn">English</th>
+                  <th data-field="textKo">Korean</th>
+                  <th data-field="textZh">Chinese</th>
+                </tr>
+              </thead>
+              <tbody id="texts_table">
+              </tbody>
+            </table>
+          </div>
         </div>
-        <table class="bordered highlight" >
-          <colgroup>
-            <col width="150px" >
-            <col width="100px">
-            <col width="25%">
-            <col width="25%">
-            <col width="25%">
-          </colgroup>
-          <thead>
-            <tr>
-              <th data-field="code">Code</th>
-              <th data-field="referencedCount">Reference</th>
-              <th data-field="textEn">English</th>
-              <th data-field="textKo">Korean</th>
-              <th data-field="textZh">Chinese</th>
-            </tr>
-          </thead>
-          <tbody id="texts_table">
-          </tbody>
-        </table>
-      </div>
-      </div>
       </div>
     </div>
   </main>
-          <div class="card" id="edittext_card">
-          <div class="card-content">
-            <span class="card-title">Edit Text</span>
-            <div class="input-field">
-              <input id="edittext_text" type="text" maxlength="2000">
-            </div>
-          </div>
-          <div class="card-action">
-            <a href="#" id="btnCancelEdittext" class="right">Cancel</a> <a href="#" id="btnSaveEdittext" class="right">Save</a>
-          </div>
-        </div>
   <script src="js/underscore-min.js"></script>
   <script src="js/jquery-2.2.2.min.js"></script>
   <script src="js/jquery.paste_image_reader.js"></script>

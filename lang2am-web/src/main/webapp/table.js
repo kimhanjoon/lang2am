@@ -124,7 +124,10 @@ $(function() {
 	$("#texts_table").on("click", "i.copy", function(e) {
 		copyToClipboard($(this).closest("td").data("code"));
 	});
-	
+
+	$("#texts_table").on("click", "#btnEmptyNewcode", function() {
+		$("#btnNewcode").click();
+	});
 
 	//XXX pre-complie
 	var edittext_table;

@@ -115,14 +115,15 @@ $(function() {
 			$("#texts_table").append(translate_table({
 				texts: data,
 			}));
+			$('#texts_table .dropdown-button').dropdown({ constrain_width: false });
     	})
     	.fail(function(jqXHR) {
     		Materialize.toast('Error', 3000);
     	});
 	}
 	
-	$("#texts_table").on("click", "i.copy", function(e) {
-		copyToClipboard($(this).closest("td").data("code"));
+	$("#texts_table").on("click", ".source-code a", function(e) {
+		copyToClipboard($(this).find("span").text());
 	});
 
 	$("#texts_table").on("click", "#btnEmptyNewcode", function() {

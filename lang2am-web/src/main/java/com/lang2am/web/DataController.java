@@ -1,16 +1,19 @@
 package com.lang2am.web;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
 import com.lang2am.domain.TextVO;
 import com.lang2am.service.SearchDAO;
 import com.lang2am.service.TextDAO;
@@ -27,9 +30,36 @@ public class DataController {
 	@Autowired
 	private TextDAO textDAO;
 
-	@RequestMapping(value="/text", method=RequestMethod.GET)
-	public String list(@RequestParam(value="q", required=false) String q) {
-		return new Gson().toJson(searchDAO.list(q));
+	@Value("${template.javascript}")
+	String template_javascript;
+
+	@Value("${template.handlebars}")
+	String template_handlebars;
+
+	@Value("${template.java}")
+	String template_java;
+
+	@Value("${template.javaexception}")
+	String template_javaexception;
+
+	@Value("${template.jsp}")
+	String template_jsp;
+
+	@RequestMapping(value="/text", method=RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public List<Map> list(@RequestParam(value="q", required=false) String q) {
+		List<Map> list = searchDAO.list(q);
+		for (Map<String, Object> map : list) {
+			map.put("templateJavascript", makeTemplete(template_javascript, map));
+			map.put("templateHandlebars", makeTemplete(template_handlebars, map));
+			map.put("templateJsp", makeTemplete(template_jsp, map));
+			map.put("templateJavaexception", makeTemplete(template_javaexception, map));
+			map.put("templateJava", makeTemplete(template_java, map));
+		}
+		return list;
+	}
+
+	private String makeTemplete(String templete, Map map) {
+		return templete.replaceAll("\\{\\{code\\}\\}", (String) map.get("code")).replaceAll("\\{\\{text\\}\\}", (String) map.get("textEn"));
 	}
 
 	@RequestMapping(value="/text/{code}/{locale}", method=RequestMethod.PUT, produces = "application/json; charset=UTF-8")
@@ -63,10 +93,10 @@ public class DataController {
 			dvo.setComment("unconfirmed by lang2am-web");
 			textDAO.updateStatus(dvo);
 		}
-		
+
 		return TextVO.builder().code(code).locale(locale).text(text).build();
 	}
-	
+
 
 	@RequestMapping(value="/text/{code}/{locale}", method=RequestMethod.GET)
 	public TextVO select(@PathVariable(value="code") String code

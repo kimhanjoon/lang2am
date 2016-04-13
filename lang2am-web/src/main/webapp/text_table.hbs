@@ -3,12 +3,13 @@
     <td data-code="{{code}}">{{{nvl code_highlight code}}}
       <i class="material-icons right red-text only-hover copy dropdown-button" data-activates='source-code-dropdown-{{code}}'>content_copy</i>
       <ul id='source-code-dropdown-{{code}}' class='dropdown-content source-code'>
-        <li><a href="javscript:void(0);">{{code}}</a></li>
+        <li><a href="javascript:void(0);"><span>{{code}}</span></a></li>
         <li class="divider"></li>
-        <li><a href="javscript:void(0);"><div class="chip">Javascript</div> <span>Lang2am.text("{{code}}")/* {{textEn}} */</span></a></li>
-        <li><a href="javscript:void(0);"><div class="chip">JSP</div> <span>&lt;Lang2am:text code="{{code}}" /&gt;&lt;%-- {{textEn}} --%&gt;</span></a></li>
-        <li><a href="javscript:void(0);"><div class="chip">Java</div> <span>Lang2am.text("{{code}}")/* {{textEn}} */</span></a></li>
-        <li><a href="javscript:void(0);"><div class="chip">Java</div> <span>throw new RuntimeException(Lang2am.text("{{code}}"));  // {{textEn}}</span></a></li>
+        <li><a href="javascript:void(0);"><div class="chip">Javascript</div> <span>{{templateJavascript}}</span></a></li>
+        <li><a href="javascript:void(0);"><div class="chip">Handlebars</div> <span>{{templateHandlebars}}</span></a></li>
+        <li><a href="javascript:void(0);"><div class="chip">JSP</div> <span>{{templateJsp}}</span></a></li>
+        <li><a href="javascript:void(0);"><div class="chip">Java</div> <span>{{templateJava}}</span></a></li>
+        <li><a href="javascript:void(0);"><div class="chip">Java Exception</div> <span>{{templateJavaexception}}</span></a></li>
       </ul>
     </td>
     <td>{{referenceCount}}</td>

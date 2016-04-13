@@ -1,5 +1,6 @@
 package com.lang2am.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public class DataController {
 	String template_jsp;
 
 	@RequestMapping(value="/text", method=RequestMethod.GET, produces = "application/json; charset=UTF-8")
-	public List<Map> list(@RequestParam(value="q", required=false) String q) {
+	public Map<String, Object> list(@RequestParam(value="q", required=false) String q) {
 		List<Map> list = searchDAO.list(q);
 		for (Map<String, Object> map : list) {
 			map.put("templateJavascript", makeTemplete(template_javascript, map));
@@ -55,7 +56,10 @@ public class DataController {
 			map.put("templateJavaexception", makeTemplete(template_javaexception, map));
 			map.put("templateJava", makeTemplete(template_java, map));
 		}
-		return list;
+		Map<String, Object> map = new HashMap<>();
+		map.put("textlist", list);
+		map.put("total", searchDAO.count(q));
+		return map;
 	}
 
 	private String makeTemplete(String templete, Map map) {

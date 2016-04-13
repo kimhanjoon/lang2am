@@ -29,7 +29,7 @@ nav .brand-logo {
     right: 10px;
     cursor: pointer;
 }
-.results {
+#results-count {
     font-size: 16px;
 }
 .refresh {
@@ -74,7 +74,7 @@ textarea.text-edittext {
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Lang2am - Web</a>
+      <a href="" class="brand-logo">Lang2am - Web</a>
       <ul class="right">
         <li><a class="btn" id="btnNewcode">+ new code</a></li>
       </ul>
@@ -127,8 +127,8 @@ textarea.text-edittext {
             </table>
           </div>
           <div class="card-action">
-            <a href="#" id="btnSaveNewcode" class="right">Save</a>
-            <a href="#" id="btnCancelNewcode" class="right">Cancel</a>
+            <a href="javascript:void(0);" id="btnSaveNewcode" class="right">Save</a>
+            <a href="javascript:void(0);" id="btnCancelNewcode" class="right">Cancel</a>
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@ textarea.text-edittext {
             
               <div class="right">
                 <div class="valign-wrapper">
-                  <div class="valign right-align results"></div>
+                  <div class="valign right-align" id="results-count"></div>
                   <i class="material-icons refresh right small">refresh</i>
               </div>
               </div>

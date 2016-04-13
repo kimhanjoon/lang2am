@@ -24,4 +24,9 @@ public class SearchDAO {
 		return this.sqlSessionTemplate.selectList("listAllText", dvo);
 	}
 
+	public int count(String q) {
+		TextVO dvo = TextVO.builder().text(q).build();
+		return this.sqlSessionTemplate.selectOne("count", dvo);
+	}
+
 }

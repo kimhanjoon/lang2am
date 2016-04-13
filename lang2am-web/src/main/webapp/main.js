@@ -80,6 +80,7 @@ $(function() {
     });
 	
 	var _last_query = "";
+	var _last_queryRegExp = new RegExp("("+escapeRegExp(_last_query)+")", "gi");;
 	search_texts("");
 	$("#search").keyup( _.debounce(function() {
 		var query = $("#search").val();
@@ -92,6 +93,9 @@ $(function() {
 	
 	function search_texts(query) {
 		_last_query = query;
+		var queryRegExp = new RegExp("("+escapeRegExp(query)+")", "gi");
+		console.log(query, " => ", queryRegExp);
+		_last_queryRegExp = queryRegExp;
 		$("#texts_table").empty();
 		$.ajax({
     		method: "GET",
@@ -102,9 +106,7 @@ $(function() {
     	.done(function(data) {
     		
     		if( query && query.length > 0 ) {
-    			var queryRegExp = new RegExp("("+escapeRegExp(query)+")", "gi");
-        		console.log(query, " => ", queryRegExp);
-    			_.each(data, function(e) {
+    			_.each(data.textlist, function(e) {
     				e.code_highlight = highlight(e.code, queryRegExp);
     				e.textEn_highlight = highlight(e.textEn, queryRegExp);
     				e.textKo_highlight = highlight(e.textKo, queryRegExp);
@@ -112,8 +114,9 @@ $(function() {
     			});
     		}
 
+    		$("#results-count").text(data.textlist.length + " of " + data.total);
 			$("#texts_table").append(translate_table({
-				texts: data,
+				texts: data.textlist,
 			}));
 			$('#texts_table .dropdown-button').dropdown({ constrain_width: false });
     	})
@@ -121,6 +124,13 @@ $(function() {
     		Materialize.toast('Error', 3000);
     	});
 	}
+
+	$("i.search").click(function(e) {
+		search_texts(_last_query);
+	});
+	$("i.refresh").click(function(e) {
+		search_texts(_last_query);
+	});
 	
 	$("#texts_table").on("click", ".source-code a", function(e) {
 		copyToClipboard($(this).find("span").text());
@@ -168,7 +178,7 @@ $(function() {
     	.done(function(data) {
     		Materialize.toast('Saved.', 1500);
     		$td.find(".text-edittext, .edittext").remove();
-    		$td.find(".text").text(data.text).show();
+    		$td.find(".text").html(highlight(data.text, _last_queryRegExp)).show();
     		$td.find("i.edit").css('display','');
     	})
     	.fail(function(jqXHR) {

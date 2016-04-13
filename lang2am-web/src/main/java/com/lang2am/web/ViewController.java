@@ -8,17 +8,7 @@ public class ViewController {
 
     @RequestMapping("/")
     public String main() {
-        return "table";
-    }
-
-    @RequestMapping("/cardview")
-    public String card() {
-        return "card";
-    }
-
-    @RequestMapping("/tableview")
-    public String table() {
-        return "table";
+        return "main";
     }
 
 }

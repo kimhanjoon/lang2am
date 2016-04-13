@@ -41,7 +41,7 @@ $(function() {
 	
 	//XXX pre-complie
 	var translate_table;
-	$.get("translate_table.hbs", function(template_text){
+	$.get("text_table.hbs", function(template_text){
 		translate_table = Handlebars.compile(template_text);
 	});
 
@@ -132,7 +132,7 @@ $(function() {
 
 	//XXX pre-complie
 	var edittext_table;
-	$.get("edittext_table.hbs", function(template_text){
+	$.get("edittext.hbs", function(template_text){
 		edittext_table = Handlebars.compile(template_text);
 	});
 	

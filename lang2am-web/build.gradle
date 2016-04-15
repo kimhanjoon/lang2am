@@ -54,6 +54,8 @@ dependencies {
 	testCompile 'org.testng:testng:6.0.1'
 
 	compile "org.projectlombok:lombok:1.16.8"
+	compile 'commons-io:commons-io:2.4'
+
 }
 
 task wrapper(type: Wrapper) {

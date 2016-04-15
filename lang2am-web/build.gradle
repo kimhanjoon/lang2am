@@ -10,6 +10,7 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
@@ -55,6 +56,9 @@ dependencies {
 
 	compile "org.projectlombok:lombok:1.16.8"
 	compile 'commons-io:commons-io:2.4'
+	
+	testCompile 'org.codehaus.groovy:groovy-all:2.3.7'
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.3'
 
 }
 

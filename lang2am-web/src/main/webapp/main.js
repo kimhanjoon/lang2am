@@ -119,6 +119,7 @@ $(function() {
 				texts: data.textlist,
 			}));
 			$('#texts_table .dropdown-button').dropdown({ constrain_width: false });
+			$('#texts_table .tooltipped').tooltip({delay: 50});
     	})
     	.fail(function(jqXHR) {
     		Materialize.toast('Error', 3000);

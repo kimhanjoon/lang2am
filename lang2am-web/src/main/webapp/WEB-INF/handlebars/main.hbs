@@ -76,44 +76,29 @@ textarea.text-edittext {
     <div class="nav-wrapper">
       <a href="" class="brand-logo">Lang2am - Web</a>
       <ul class="right">
-        <li><a class="btn" id="btnNewcode">+ new code</a></li>
+        <li><a class="btn tooltipped" id="btnNewcode" data-position="bottom" data-delay="50" data-tooltip="Ctrl+Alt+O">+ new code</a></li>
       </ul>
     </div>
   </nav>
   <main>
     <div class="row" id="newcode_card" style="display: none;">
-      <div class="col s4">
-      <div class="card">
-        <div class="card-content">
-        	<span class="card-title">Shortcuts</span>
-        	<p>Ctrl+Alt+F : <span class="underline">F</span>ocus in search</p>
-        	<p>Ctrl+Alt+R : <span class="underline">R</span>efresh search result</p>
-        	<p>Ctrl+Alt+O : <span class="underline">O</span>pen new code box</p>
-        	<p>Ctrl+Alt+C : <span class="underline">C</span>lose new code box</p>
-        	<p>Ctrl+Alt+S : <span class="underline">S</span>ave new code (only work in new code box)</p>
-        </div>
-      </div>
-      </div>
       <div class="col s8">
         <div class="card">
           <div class="card-content">
-            <span class="card-title">New Code</span>
+            <span class="card-title tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ctrl+Alt+O">New Code</span>
             <table id="newcode_table">
               <colgroup>
                 <col width="70px" >
                 <col width="">
-                <col width="200px">
               </colgroup>
               <tbody>
                 <tr>
                   <th>Code</th>
                   <td><input id="code" type="text" placeholder="Leave blank to get a new code." maxlength="2000"></td>
-                  <th>Screenshot</td>
                 </tr>
                 <tr>
                   <th>English</th>
                   <td><input id="en" type="text" placeholder="Required." required></td>
-                  <td rowspan="3"></td>
                 </tr>
                 <tr>
                   <th>Korean</th>
@@ -127,10 +112,17 @@ textarea.text-edittext {
             </table>
           </div>
           <div class="card-action">
-            <a href="javascript:void(0);" id="btnSaveNewcode" class="right">Save</a>
-            <a href="javascript:void(0);" id="btnCancelNewcode" class="right">Cancel</a>
+            <a href="javascript:void(0);" id="btnSaveNewcode" class="right tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ctrl+Alt+S">Save</a>
+            <a href="javascript:void(0);" id="btnCancelNewcode" class="right tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ctrl+Alt+C">Cancel</a>
           </div>
         </div>
+      </div>
+      <div class="col s4">
+      <div class="card">
+        <div class="card-content">
+            <span class="card-title">Screenshot</span>
+        </div>
+      </div>
       </div>
     </div>
     <div class="row">
@@ -138,16 +130,16 @@ textarea.text-edittext {
         <div class="card hoverable">
           <div class="card-content">
             <div class="card-title">
-            
+
               <div class="input-field" id="search_box" >
-                <input id="search" type="text" placeholder="Search" size="50">
+                <input id="search" type="text" placeholder="Search" size="50" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ctrl+Alt+F">
                 <i class="material-icons search small">search</i>
               </div>
-            
+
               <div class="right">
                 <div class="valign-wrapper">
                   <div class="valign right-align" id="results-count"></div>
-                  <i class="material-icons refresh right small">refresh</i>
+                  <i class="material-icons refresh right small tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ctrl+Alt+R">refresh</i>
               </div>
               </div>
             </div>

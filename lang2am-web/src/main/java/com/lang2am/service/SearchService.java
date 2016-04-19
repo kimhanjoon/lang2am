@@ -32,10 +32,10 @@ public class SearchService {
 	@Value("${template.jsp}")
 	String template_jsp;
 
-	private String makeTemplete(String templete, Map map) {
-		String template = StringUtils.replace(templete, "{{code}}", (String) map.get("code"));
-		template = StringUtils.replace(templete, "{{text}}", (String) map.get("textEn"));
-		return template;
+	private String makeCodeSnippet(String template, Map map) {
+		String codeSnippet = StringUtils.replace(template, "{{code}}", (String) map.get("code"));
+		codeSnippet = StringUtils.replace(codeSnippet, "{{text}}", (String) map.get("textEn"));
+		return codeSnippet;
 	}
 
 	@Autowired
@@ -46,11 +46,11 @@ public class SearchService {
 		List<Map> list = searchDAO.list(q);
 
 		for (Map<String, Object> map : list) {
-			map.put("templateJavascript", makeTemplete(template_javascript, map));
-			map.put("templateHandlebars", makeTemplete(template_handlebars, map));
-			map.put("templateJsp", makeTemplete(template_jsp, map));
-			map.put("templateJavaexception", makeTemplete(template_javaexception, map));
-			map.put("templateJava", makeTemplete(template_java, map));
+			map.put("codeSnippetJavascript", makeCodeSnippet(template_javascript, map));
+			map.put("codeSnippetHandlebars", makeCodeSnippet(template_handlebars, map));
+			map.put("codeSnippetJsp", makeCodeSnippet(template_jsp, map));
+			map.put("codeSnippetJavaexception", makeCodeSnippet(template_javaexception, map));
+			map.put("codeSnippetJava", makeCodeSnippet(template_java, map));
 
 			map.put("textZhInKo", chinese2KoreanMapper.toKorean((String) map.get("textZh")));
 		}

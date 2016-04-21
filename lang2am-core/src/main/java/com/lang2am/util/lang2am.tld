@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        version="2.1"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+    <description></description>
+    <tlib-version>1.0</tlib-version>
+    <short-name>lang2am text</short-name>
+    <uri>lang2am.com</uri>
+    <tag>
+        <description></description>
+        <name>text</name>
+        <tag-class>com.lang2am.util.Lang2amTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+</taglib>

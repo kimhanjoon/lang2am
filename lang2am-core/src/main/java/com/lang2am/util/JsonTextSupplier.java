@@ -30,7 +30,7 @@ public class JsonTextSupplier implements TextSupplier {
 		if( map == null ) {
 			return code;
 		}
-		String text = map.get("text-" + locale);
+		String text = map.get(locale);
 		if( text == null ) {
 			return code;	//XXX fallback locale?
 		}

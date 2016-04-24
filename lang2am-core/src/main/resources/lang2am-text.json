@@ -1,8 +1,8 @@
 {
-    "L_CODE":{"text-en_US":"code", "text-ko_KR":"코드"},
-    "L_NAME":{"text-en_US":"name", "text-ko_KR":"이름"},
-    "L_CODENAME":{"text-en_US":"{{L_CODE}} {{L_NAME}}", "text-ko_KR":"{{L_CODE}}{{L_NAME}}"},
-    "L_00004":{"text-en_US":"{{L_CODENAME}} is required.", "text-ko_KR":"{{L_CODENAME}}은 필수입니다."},
-    "L_00005":{"text-en_US":"${0} of ${1} has completed.", "text-ko_KR":"${1}개 중 ${0}개가 완료되었습니다."},
-    "L_00006":{"text-en_US":"all HTTP connection has close.", "text-ko_KR":"모든 HTTP 연결이 종료되었습니다."}
+    "L_CODE":{"en_US":"code", "ko_KR":"코드"},
+    "L_NAME":{"en_US":"name", "ko_KR":"이름"},
+    "L_CODENAME":{"en_US":"{{L_CODE}} {{L_NAME}}", "ko_KR":"{{L_CODE}}{{L_NAME}}"},
+    "L_00004":{"en_US":"{{L_CODENAME}} is required.", "ko_KR":"{{L_CODENAME}}은 필수입니다."},
+    "L_00005":{"en_US":"${0} of ${1} has completed.", "ko_KR":"${1}개 중 ${0}개가 완료되었습니다."},
+    "L_00006":{"en_US":"all HTTP connection has close.", "ko_KR":"모든 HTTP 연결이 종료되었습니다."}
 }

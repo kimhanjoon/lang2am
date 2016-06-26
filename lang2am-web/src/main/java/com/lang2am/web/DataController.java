@@ -84,26 +84,17 @@ public class DataController {
 			, @RequestParam(value="zh") String zh
 			, HttpServletRequest request) {
 
-		// 5자리의 숫자만 가능
 		if( !StringUtils.isBlank(code) ) {
-			if( !StringUtils.containsOnly(code, "0123456789") ) {
-				throw new IllegalArgumentException("Code must be digits.");
-			}
-			if( StringUtils.length(code) != 5 ) {
-				throw new IllegalArgumentException("Code must be 5-length.");
-			}
-			if( code.compareTo("10000") < 0 ) {
-				throw new IllegalArgumentException("Code must be over 10000.");
+			if( !StringUtils.containsOnly(code, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_") ) {
+				throw new IllegalArgumentException("Code must be digits or alphabets or underscore.");
 			}
 		}
 
 		String newcode = code;
 
 		if( StringUtils.isBlank(code) ) {
-			newcode = textDAO.newcode();
+			newcode = "GEN_SGP_I_" + textDAO.newcode();
 		}
-
-		newcode = "GEN_SGP_I_" + newcode;
 
 		TextVO dvo = TextVO.builder()
 				.code(newcode)

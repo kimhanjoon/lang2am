@@ -8,7 +8,10 @@ public class Lang2am {
 			textSupplier = new JsonTextSupplier();
 		}
 		else if( "JDBC".equals(Lang2amProperty.getValue("lang2am.supplier.type")) ) {
-			textSupplier = new JdbcTextSupplier();
+			textSupplier = new DbcpTextSupplier();
+		}
+		else if( "DBCP2".equals(Lang2amProperty.getValue("lang2am.supplier.type")) ) {
+			textSupplier = new Dbcp2TextSupplier();
 		}
 	}
 

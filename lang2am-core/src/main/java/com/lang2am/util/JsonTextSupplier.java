@@ -4,8 +4,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import lombok.SneakyThrows;
-
 import com.google.gson.Gson;
 
 public class JsonTextSupplier implements TextSupplier {
@@ -13,7 +11,6 @@ public class JsonTextSupplier implements TextSupplier {
 	private Map<String, Map<String, String>> textMap = new HashMap<>();
 
 	@SuppressWarnings("unchecked")
-	@SneakyThrows
 	public JsonTextSupplier() {
 		super();
 		textMap = new Gson().fromJson(new InputStreamReader(JsonTextSupplier.class.getClassLoader().getResourceAsStream(Lang2amProperty.getValue("lang2am.json.file"))), Map.class);

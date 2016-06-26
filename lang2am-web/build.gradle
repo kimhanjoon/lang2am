@@ -10,9 +10,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'groovy'
 apply plugin: 'eclipse'
-apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
 
@@ -40,7 +38,6 @@ ext['tomcat.version'] = '7.0.55'
 dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-jdbc'
-	compile 'org.springframework.boot:spring-boot-starter-actuator'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
 	compile 'commons-dbcp:commons-dbcp:1.4'
@@ -50,8 +47,6 @@ dependencies {
 
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
-	testCompile 'org.codehaus.groovy:groovy-all:2.3.7'
-	testCompile 'org.spockframework:spock-core:1.0-groovy-2.3'
 
 	compile 'com.github.jknack:handlebars-springmvc:4.0.4'
 	compile 'com.google.code.gson:gson:2.2.4'

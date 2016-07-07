@@ -20,8 +20,8 @@ public class Lang2am {
 
 		// remove transform option
 		String codeWithoutOption = code;
-		if( code.endsWith("_F") || code.endsWith("_E") || code.endsWith("_U") || code.endsWith("_L") ) {
-			codeWithoutOption = code.substring(0, code.length() - 2);
+		if( code.endsWith("__F") || code.endsWith("__E") || code.endsWith("__U") || code.endsWith("__L") ) {
+			codeWithoutOption = code.substring(0, code.length() - 1);
 		}
 
 		// retrieve text
@@ -42,16 +42,16 @@ public class Lang2am {
 		}
 
 		// transform
-		if( code.endsWith("_F") ) {
+		if( code.endsWith("__F") ) {
 			text = Character.toTitleCase(text.charAt(0)) + text.substring(1);
 		}
-		else if( code.endsWith("_E") ) {
+		else if( code.endsWith("__E") ) {
 			text = capitalize(text);
 		}
-		else if( code.endsWith("_U") ) {
+		else if( code.endsWith("__U") ) {
 			text = text.toUpperCase();
 		}
-		else if( code.endsWith("_L") ) {
+		else if( code.endsWith("__L") ) {
 			text = text.toLowerCase();
 		}
 

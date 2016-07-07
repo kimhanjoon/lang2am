@@ -16,13 +16,13 @@ import org.apache.commons.dbcp2.PoolingDataSource;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
-public class JdbcTextSupplier implements TextSupplier {
+public class Dbcp2TextSupplier implements TextSupplier {
 
 	private final DataSource dataSource;
 	private final String sql = "SELECT `TEXT` FROM `TB_TEXT` WHERE `CODE` = ? AND `LOCALE` = ?";
 
 	@SneakyThrows
-	public JdbcTextSupplier() {
+	public Dbcp2TextSupplier() {
 		super();
 
 		String driverClassName = Lang2amProperty.getValue("lang2am.datasource.driverClassName");

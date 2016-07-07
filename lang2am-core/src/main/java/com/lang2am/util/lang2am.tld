@@ -6,12 +6,23 @@
         http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
     <description></description>
     <tlib-version>1.0</tlib-version>
-    <short-name>lang2am text</short-name>
+    <short-name>Lang2am Text</short-name>
     <uri>lang2am.com</uri>
     <tag>
         <description></description>
         <name>text</name>
         <tag-class>com.lang2am.util.Lang2amTag</tag-class>
         <body-content>empty</body-content>
+		<attribute>
+			<name>code</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>params</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
     </tag>
+    
 </taglib>

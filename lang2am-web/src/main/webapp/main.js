@@ -100,7 +100,7 @@ $(function() {
 		$.ajax({
     		method: "GET",
     		url: 'text',
-    		data: {q:query},
+    		data: {q:query, l:30},
     		dataType: "json",
     	})
     	.done(function(data) {

@@ -41,9 +41,9 @@ public class SearchService {
 	@Autowired
 	Chinese2KoreanMapper chinese2KoreanMapper;
 
-	public Map<String, Object> list(String q) {
+	public Map<String, Object> list(String query, String category, int limit) {
 
-		List<Map> list = searchDAO.list(q);
+		List<Map> list = searchDAO.list(query, category, limit);
 
 		for (Map<String, Object> map : list) {
 			map.put("codeSnippetJavascript", makeCodeSnippet(template_javascript, map));
@@ -57,7 +57,7 @@ public class SearchService {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("textlist", list);
-		map.put("total", searchDAO.count(q));
+		map.put("total", searchDAO.count(query, category));
 
 		return map;
 	}

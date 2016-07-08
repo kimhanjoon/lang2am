@@ -3,7 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lang2am.service.SearchDAO">
-    
+
+    <sql id="existsText">
+    <if test="query != null and query != ''">
+        and (
+            exists (
+                select 1
+                from TB_TEXT b
+                where b.CODE = a.CODE
+                    and b.TEXT like concat('%', replace(replace(#{query},'%','\%'),'_','\_'),'%')
+            )
+            or
+            a.CODE like concat('%', replace(replace(#{query},'%','\%'),'_','\_'),'%')
+        )
+    </if>
+    </sql>
+
     <select id="listAllText" resultType="map">
 	select a.CODE as code
 		, max(case when a.LOCALE = 'ko_KR' then a.TEXT else null end) as textKo
@@ -14,38 +29,16 @@
 		, (select count(1) from TB_REFERER b where b.code = a.CODE) as referenceCount
 	from TB_TEXT a
 	where 1=1
-	<if test="text != null">
-        and (
-            exists (
-	            select 1 
-	            from TB_TEXT b 
-	            where b.CODE = a.CODE 
-	                and b.TEXT like concat('%', replace(replace(#{text},'%','\%'),'_','\_'),'%')
-            )
-            or 
-            a.CODE like concat('%', replace(replace(#{text},'%','\%'),'_','\_'),'%')
-        )
-	</if>
+	<include refid="existsText"></include>
 	group by a.CODE
 	order by max(a.MODIFIED_TIME) desc, a.CODE
-	limit 30
+	limit #{limit}
     </select>
-    
+
     <select id="count" resultType="int">
     select count(distinct CODE)
     from TB_TEXT a
     where 1=1
-    <if test="text != null">
-        and (
-            exists (
-                select 1 
-                from TB_TEXT b 
-                where b.CODE = a.CODE 
-                    and b.TEXT like concat('%', replace(replace(#{text},'%','\%'),'_','\_'),'%')
-            )
-            or 
-            a.CODE like concat('%', replace(replace(#{text},'%','\%'),'_','\_'),'%')
-        )
-    </if>
+    <include refid="existsText"></include>
     </select>
 </mapper>

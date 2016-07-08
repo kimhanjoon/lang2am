@@ -29,8 +29,12 @@ public class DataController {
 	private TextDAO textDAO;
 
 	@RequestMapping(value="/text", method=RequestMethod.GET, produces = "application/json; charset=UTF-8")
-	public Map<String, Object> list(@RequestParam(value="q", required=false) String q) {
-		return searchService.list(q);
+	public Map<String, Object> list(
+			@RequestParam(value="q", required=false) String query
+			, @RequestParam(value="c", required=false) String category
+			, @RequestParam(value="l", required=false) int limit
+			) {
+		return searchService.list(query, category, limit);
 	}
 
 	@RequestMapping(value="/text/{code}/{locale}", method=RequestMethod.PUT, produces = "application/json; charset=UTF-8")

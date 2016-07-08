@@ -91,16 +91,22 @@ $(function() {
 
 	}, 1000));
 
-	function search_texts(query) {
+	function search_texts(query, limit) {
 		_last_query = query;
 		var queryRegExp = new RegExp("("+escapeRegExp(_.escape(query))+")", "gi");
 		console.log(query, " => ", queryRegExp);
 		_last_queryRegExp = queryRegExp;
+
+		if( !limit ) {
+			limit = 30;
+		}
+
 		$("#texts_table").empty();
+
 		$.ajax({
     		method: "GET",
     		url: 'text',
-    		data: {q:query, l:30},
+    		data: {q:query, l:limit},
     		dataType: "json",
     	})
     	.done(function(data) {
@@ -123,6 +129,7 @@ $(function() {
     		$("#results-count").text(data.textlist.length + " of " + data.total);
 			$("#texts_table").append(translate_table({
 				texts: data.textlist,
+				seeall: data.textlist.length < data.total,
 			}));
 			$('#texts_table .dropdown-button').dropdown({ constrain_width: false });
 			$('#texts_table .tooltipped').tooltip({delay: 50});
@@ -145,6 +152,10 @@ $(function() {
 
 	$("#texts_table").on("click", "#btnEmptyNewcode", function() {
 		$("#btnNewcode").click();
+	});
+
+	$("#texts_table").on("click", "#btnSeeall", function() {
+		search_texts(_last_query, 99999);
 	});
 
 	//XXX pre-complie

@@ -17,7 +17,7 @@ public class SearchDAO {
 
 	public List<Map> list(String query, String category, int limit) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("query", query);
+		map.put("queryList", query.split(" "));
 		map.put("categoryCode", StringUtils.contains(category, "code"));
 		map.put("categoryText", StringUtils.contains(category, "text"));
 		map.put("limit", limit);
@@ -26,7 +26,7 @@ public class SearchDAO {
 
 	public int count(String query, String category) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("query", query);
+		map.put("queryList", query.split(" "));
 		map.put("categoryCode", StringUtils.contains(category, "code"));
 		map.put("categoryText", StringUtils.contains(category, "text"));
 		return this.sqlSessionTemplate.selectOne("count", map);

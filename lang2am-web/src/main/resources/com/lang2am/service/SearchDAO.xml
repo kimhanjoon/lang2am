@@ -5,7 +5,7 @@
 <mapper namespace="com.lang2am.service.SearchDAO">
 
     <sql id="existsText">
-    <if test="query != null and query != ''">
+    <if test="queryList != null and queryList != ''">
         and (
             1 != 1
 
@@ -14,12 +14,19 @@
                 select 1
                 from TB_TEXT b
                 where b.CODE = a.CODE
+                    <foreach collection="queryList" item="query">
                     and b.TEXT like concat('%', replace(replace(#{query},'%','\%'),'_','\_'),'%')
+                    </foreach>
             )
             </if>
 
             <if test="categoryCode">
-            or a.CODE like concat('%', replace(replace(#{query},'%','\%'),'_','\_'),'%')
+            or (
+                1 = 1
+	            <foreach collection="queryList" item="query">
+	            and a.CODE like concat('%', replace(replace(#{query},'%','\%'),'_','\_'),'%')
+	            </foreach>
+            )
             </if>
         )
     </if>

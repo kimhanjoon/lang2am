@@ -12,8 +12,10 @@ function copyToClipboard(text) {
     document.execCommand("copy");
     $temp.remove();
 }
-function highlight(text, queryRegExp) {
-	return text.replace(queryRegExp, '<span class="yellow">$1</span>');
+function highlight(text, queryRegExpList) {
+	return _.reduce(queryRegExpList, function(m, e) {
+		return m.replace(e, '<span class="yellow">$1</span>');
+	}, text);
 }
 Handlebars.registerHelper('nvl', function(first, second) {
 	return first ? first : second;
@@ -80,7 +82,6 @@ $(function() {
     });
 
 	var _last_query = "";
-	var _last_queryRegExp = new RegExp("("+escapeRegExp(_last_query)+")", "gi");;
 	search_texts("");
 	$("#search").keyup( _.debounce(function() {
 		var query = $("#search").val();
@@ -93,9 +94,10 @@ $(function() {
 
 	function search_texts(query, limit) {
 		_last_query = query;
-		var queryRegExp = new RegExp("("+escapeRegExp(_.escape(query))+")", "gi");
-		console.log(query, " => ", queryRegExp);
-		_last_queryRegExp = queryRegExp;
+		var queryRegExpList = _.map(query.replace(/ +/g, " ").trim().split(" "), function(e) {
+			return new RegExp("("+escapeRegExp(_.escape(e))+")", "gi");
+		});
+		console.log(query, " => ", queryRegExpList);
 
 		var category = _.map($(".search-category:checked"), function(e) {
 			return $(e).val();
@@ -123,10 +125,10 @@ $(function() {
 
     		if( query && query.length > 0 ) {
     			_.each(data.textlist, function(e) {
-    				e.code_highlight = highlight(e.code, queryRegExp);
-    				e.textEn_highlight = highlight(e.textEn, queryRegExp);
-    				e.textKo_highlight = highlight(e.textKo, queryRegExp);
-    				e.textZh_highlight = highlight(e.textZh, queryRegExp);
+    				e.code_highlight = highlight(e.code, queryRegExpList);
+    				e.textEn_highlight = highlight(e.textEn, queryRegExpList);
+    				e.textKo_highlight = highlight(e.textKo, queryRegExpList);
+    				e.textZh_highlight = highlight(e.textZh, queryRegExpList);
     			});
     		}
 
@@ -207,7 +209,7 @@ $(function() {
     	.done(function(data) {
     		Materialize.toast('Saved.', 1500);
     		$td.find(".text-edittext, .edittext").remove();
-    		$td.find(".text").html(highlight(data.text, _last_queryRegExp)).show();
+    		$td.find(".text").text(data.text).addClass("red-text").show();
     		$td.find("i.edit").css('display','');
     	})
     	.fail(function(jqXHR) {

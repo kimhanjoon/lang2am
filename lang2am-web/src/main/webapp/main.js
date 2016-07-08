@@ -97,6 +97,10 @@ $(function() {
 		console.log(query, " => ", queryRegExp);
 		_last_queryRegExp = queryRegExp;
 
+		var category = _.map($(".search-category:checked"), function(e) {
+			return $(e).val();
+		}).join(",");
+
 		if( !limit ) {
 			limit = 30;
 		}
@@ -106,7 +110,7 @@ $(function() {
 		$.ajax({
     		method: "GET",
     		url: 'text',
-    		data: {q:query, l:limit},
+    		data: {q:query, c:category, l:limit},
     		dataType: "json",
     	})
     	.done(function(data) {
@@ -130,6 +134,8 @@ $(function() {
 			$("#texts_table").append(translate_table({
 				texts: data.textlist,
 				seeall: data.textlist.length < data.total,
+				categoryCode: data.category ? data.category.indexOf("code") > -1 : false,
+				categoryText: data.category ? data.category.indexOf("text") > -1 : false,
 			}));
 			$('#texts_table .dropdown-button').dropdown({ constrain_width: false });
 			$('#texts_table .tooltipped').tooltip({delay: 50});
@@ -142,6 +148,11 @@ $(function() {
 	$("i.search").click(function(e) {
 		search_texts(_last_query);
 	});
+
+	$(".search-category").change(function(e) {
+		search_texts(_last_query);
+	});
+
 	$("i.refresh").click(function(e) {
 		search_texts(_last_query);
 	});

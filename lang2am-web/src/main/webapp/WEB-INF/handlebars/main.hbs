@@ -130,10 +130,16 @@ textarea.text-edittext {
         <div class="card hoverable">
           <div class="card-content">
             <div class="card-title">
-
               <div class="input-field" id="search_box" >
                 <input id="search" type="text" placeholder="Search" size="50" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ctrl+Alt+F">
                 <i class="material-icons search small">search</i>
+              </div>
+
+              <div style="display: inline-block; margin-left: 15px;">
+                <input id="categoryCode" type="checkbox" class="filled-in search-category" checked="checked" value="code" /><label for="categoryCode">Code</label>
+              </div>
+              <div style="display: inline-block; margin-left: 15px;">
+                <input id="categoryText" type="checkbox" class="filled-in search-category" checked="checked" value="text"/><label for="categoryText">Text</label>
               </div>
 
               <div class="right">

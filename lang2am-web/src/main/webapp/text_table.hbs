@@ -1,6 +1,6 @@
 {{#each texts}}
   <tr data-code="{{code}}">
-    <td data-code="{{code}}">{{{nvl code_highlight code}}}
+    <td data-code="{{code}}">{{#if ../categoryCode}}{{{nvl code_highlight code}}}{{else}}{{code}}{{/if}}
       <i class="material-icons right red-text only-hover copy dropdown-button" data-activates='source-code-dropdown-{{code}}'>content_copy</i>
       <ul id='source-code-dropdown-{{code}}' class='dropdown-content source-code'>
         <li><a href="javascript:void(0);"><span>{{code}}</span></a></li>
@@ -13,9 +13,9 @@
       </ul>
     </td>
     <td>{{referenceCount}}</td>
-    <td data-locale="en_US"><span class="text">{{{nvl textEn_highlight textEn}}}</span><i class="material-icons right red-text only-hover edit">create</i></td>
-    <td data-locale="ko_KR"><span class="text">{{{nvl textKo_highlight textKo}}}</span><i class="material-icons right red-text only-hover edit">create</i></td>
-    <td data-locale="zh_CN"><span class="text tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{{textZhInKo}}}">{{{nvl textZh_highlight textZh}}}</span><i class="material-icons right red-text only-hover edit">create</i></td>
+    <td data-locale="en_US"><span class="text">{{#if ../categoryText}}{{{nvl textEn_highlight textEn}}}{{else}}{{textEn}}{{/if}}</span><i class="material-icons right red-text only-hover edit">create</i></td>
+    <td data-locale="ko_KR"><span class="text">{{#if ../categoryText}}{{{nvl textKo_highlight textKo}}}{{else}}{{textKo}}{{/if}}</span><i class="material-icons right red-text only-hover edit">create</i></td>
+    <td data-locale="zh_CN"><span class="text tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{{textZhInKo}}}">{{#if ../categoryText}}{{{nvl textZh_highlight textZh}}}{{else}}{{textZh}}{{/if}}</span><i class="material-icons right red-text only-hover edit">create</i></td>
   </tr>
 {{else}}
   <tr>

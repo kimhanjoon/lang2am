@@ -22,7 +22,7 @@ public class SearchDAOTest {
 	@Test
 	public void list2WithText() throws Exception {
 
-		List<Map> list = searchDAO.list("code", "", 2);
+		List<Map> list = searchDAO.list("code", "code,text", 2);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(2, list.size());
 	}
@@ -30,7 +30,7 @@ public class SearchDAOTest {
 	@Test
 	public void list30WithText() throws Exception {
 
-		List<Map> list = searchDAO.list("code", "", 30);
+		List<Map> list = searchDAO.list("code", "code,text", 30);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(3, list.size());
 	}
@@ -38,7 +38,7 @@ public class SearchDAOTest {
 	@Test
 	public void list30WithTextOver30() throws Exception {
 
-		List<Map> list = searchDAO.list("d", "", 30);
+		List<Map> list = searchDAO.list("d", "code,text", 30);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(30, list.size());
 	}
@@ -46,7 +46,7 @@ public class SearchDAOTest {
 	@Test
 	public void list9999WithTextOver30() throws Exception {
 
-		List<Map> list = searchDAO.list("d", "", 9999);
+		List<Map> list = searchDAO.list("d", "code,text", 9999);
 		Assert.assertNotNull(list);
 		Assert.assertTrue(list.size() > 30);
 	}
@@ -54,8 +54,27 @@ public class SearchDAOTest {
 	@Test
 	public void listNoresult() throws Exception {
 
-		List<Map> list = searchDAO.list("XXXXXXXXXXXXXXXXX", "", 30);
+		List<Map> list = searchDAO.list("XXXXXXXXXXXXXXXXX", "code,text", 30);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(0, list.size());
 	}
+
+
+
+
+	@Test
+	public void list2WithCategoryCode() throws Exception {
+
+		List<Map> list = searchDAO.list("display", "code", 30);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(0, list.size());
+	}
+	@Test
+	public void list2WithCategoryText() throws Exception {
+
+		List<Map> list = searchDAO.list("00006", "text", 30);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(0, list.size());
+	}
+
 }

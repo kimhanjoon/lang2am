@@ -7,14 +7,20 @@
     <sql id="existsText">
     <if test="query != null and query != ''">
         and (
-            exists (
+            1 != 1
+
+            <if test="categoryText">
+            or exists (
                 select 1
                 from TB_TEXT b
                 where b.CODE = a.CODE
                     and b.TEXT like concat('%', replace(replace(#{query},'%','\%'),'_','\_'),'%')
             )
-            or
-            a.CODE like concat('%', replace(replace(#{query},'%','\%'),'_','\_'),'%')
+            </if>
+
+            <if test="categoryCode">
+            or a.CODE like concat('%', replace(replace(#{query},'%','\%'),'_','\_'),'%')
+            </if>
         )
     </if>
     </sql>

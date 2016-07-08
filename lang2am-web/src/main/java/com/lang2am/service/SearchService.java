@@ -59,6 +59,10 @@ public class SearchService {
 		map.put("textlist", list);
 		map.put("total", searchDAO.count(query, category));
 
+		map.put("query", query);
+		map.put("category", category);
+		map.put("limit", limit);
+
 		return map;
 	}
 }

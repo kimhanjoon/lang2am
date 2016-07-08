@@ -47,6 +47,9 @@ public class Chinese2KoreanMapper {
      * @return String that changed to Korean character
      */
     public String toKorean(String chinese) {
+    	if( chinese == null ) {
+    		return null;
+    	}
     	StringBuilder sb = new StringBuilder();
     	for (int i = 0; i < chinese.length(); i++) {
     		int codePointAt = chinese.codePointAt(i);

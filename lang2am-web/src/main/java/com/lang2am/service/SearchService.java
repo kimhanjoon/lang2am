@@ -65,4 +65,14 @@ public class SearchService {
 
 		return map;
 	}
+
+	public Map<String, Object> list(String condition, int limit) {
+
+		List<Map> list = searchDAO.list(condition, limit);
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("textlist", list);
+		map.put("total", searchDAO.count(condition));
+		return map;
+	}
 }

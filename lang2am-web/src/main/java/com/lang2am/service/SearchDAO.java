@@ -32,5 +32,17 @@ public class SearchDAO {
 		return this.sqlSessionTemplate.selectOne("count", map);
 	}
 
+	public List<Map> list(String condition, int limit) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("condition", condition);
+		map.put("limit", limit);
+		return this.sqlSessionTemplate.selectList("listAllTextCondition", map);
+	}
+
+	public int count(String condition) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("condition", condition);
+		return this.sqlSessionTemplate.selectOne("countCondition", map);
+	}
 
 }

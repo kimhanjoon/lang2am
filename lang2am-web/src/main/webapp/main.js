@@ -22,6 +22,49 @@ Handlebars.registerHelper('nvl', function(first, second) {
 });
 $(function() {
 
+	$("a[data-condition]").click(function() {
+		var $this = $(this);
+
+		$("#currentSearchCondition").text($this.text());
+
+		if( $this.data("condition") === "search" ) {
+			$("#searchKeyword").show();
+
+			search_texts("");
+		}
+		else {
+			$("#searchKeyword").hide();
+
+			$("#texts_table").empty();
+
+			$.ajax({
+	    		method: "GET",
+	    		url: 'clean',
+	    		data: {c:$this.data("condition"), l:30},
+	    		dataType: "json",
+	    	})
+	    	.done(function(data) {
+
+				_.each(data.textlist, function(e) {
+					e.textEn = _.escape(e.textEn);
+					e.textKo = _.escape(e.textKo);
+					e.textZh = _.escape(e.textZh);
+				});
+
+	    		$("#results-count").text(data.textlist.length + " of " + data.total);
+				$("#texts_table").append(translate_table({
+					texts: data.textlist,
+				}));
+				$('#texts_table .tooltipped').tooltip({delay: 50});
+	    	})
+	    	.fail(function(jqXHR) {
+	    		Materialize.toast('Error', 3000);
+	    	});
+		}
+
+
+	});
+
 	$("#search").focus();
 	shortcut.add("Ctrl+Alt+F",function() {
 		$("#search").focus();

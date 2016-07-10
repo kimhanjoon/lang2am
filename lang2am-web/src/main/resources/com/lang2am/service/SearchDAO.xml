@@ -34,11 +34,15 @@
 
     <select id="listAllText" resultType="map">
 	select a.CODE as code
-		, max(case when a.LOCALE = 'ko_KR' then a.TEXT else null end) as textKo
+        , max(case when a.LOCALE = 'ko_KR' then a.TEXT else null end) as textKo
+        , max(case when a.LOCALE = 'ko_KR' then a.MODIFIED_TIME else null end) as timeKo
+        , max(case when a.LOCALE = 'ko_KR' then a.MODIFIED_IP else null end) as ipKo
 		, max(case when a.LOCALE = 'en_US' then a.TEXT else null end) as textEn
-        , max(case when a.LOCALE = 'en_US' then a.STATUS else null end) as statusEn
+        , max(case when a.LOCALE = 'en_US' then a.MODIFIED_TIME else null end) as timeEn
+        , max(case when a.LOCALE = 'en_US' then a.MODIFIED_IP else null end) as ipEn
 		, max(case when a.LOCALE = 'zh_CN' then a.TEXT else null end) as textZh
-		, max(case when a.LOCALE = 'zh_CN' then a.STATUS else null end) as statusZh
+        , max(case when a.LOCALE = 'zh_CN' then a.MODIFIED_TIME else null end) as timeZh
+        , max(case when a.LOCALE = 'zh_CN' then a.MODIFIED_IP else null end) as ipZh
 		, (select count(1) from TB_REFERER b where b.code = a.CODE) as referenceCount
 	from TB_TEXT a
 	where 1=1
@@ -54,4 +58,163 @@
     where 1=1
     <include refid="existsText"></include>
     </select>
+
+
+    <select id="listAllTextCondition" resultType="map">
+    select a.CODE as code
+        , max(case when a.LOCALE = 'ko_KR' then a.TEXT else null end) as textKo
+        , max(case when a.LOCALE = 'en_US' then a.TEXT else null end) as textEn
+        , max(case when a.LOCALE = 'zh_CN' then a.TEXT else null end) as textZh
+        , (select count(1) from TB_REFERER b where b.code = a.CODE) as referenceCount
+    from TB_TEXT a
+    where 1=1
+    <if test="condition == 'chinese'">
+	    <include refid="chinese"></include>
+    </if>
+    <if test="condition == 'parameter'">
+        <include refid="parameter"></include>
+    </if>
+    <if test="condition == 'noreferer'">
+        <include refid="noreferer"></include>
+    </if>
+    <if test="condition == 'tab'">
+	    <include refid="tab"></include>
+    </if>
+    <if test="condition == 'newline'">
+	    <include refid="newline"></include>
+    </if>
+    <if test="condition == 'doublespace'">
+        <include refid="doublespace"></include>
+    </if>
+    <if test="condition == 'edgespace'">
+        <include refid="edgespace"></include>
+    </if>
+    <if test="condition == 'quote'">
+	    <include refid="quote"></include>
+    </if>
+    group by a.CODE
+    order by max(a.MODIFIED_TIME) desc, a.CODE
+    limit #{limit}
+    </select>
+
+    <select id="countCondition" resultType="int">
+    select count(distinct CODE)
+    from TB_TEXT a
+    where 1=1
+    <if test="condition == 'chinese'">
+        <include refid="chinese"></include>
+    </if>
+    <if test="condition == 'parameter'">
+        <include refid="parameter"></include>
+    </if>
+    <if test="condition == 'noreferer'">
+        <include refid="noreferer"></include>
+    </if>
+    <if test="condition == 'tab'">
+        <include refid="tab"></include>
+    </if>
+    <if test="condition == 'newline'">
+        <include refid="newline"></include>
+    </if>
+    <if test="condition == 'doublespace'">
+        <include refid="doublespace"></include>
+    </if>
+    <if test="condition == 'edgespace'">
+        <include refid="edgespace"></include>
+    </if>
+    <if test="condition == 'quote'">
+        <include refid="quote"></include>
+    </if>
+    </select>
+
+    <sql id="chinese">
+        and (
+            select b.TEXT
+            from TB_TEXT b
+            where b.CODE = a.CODE and b.LOCALE = 'zh_CN'
+        ) = (
+            select b.TEXT
+            from TB_TEXT b
+            where b.CODE = a.CODE and b.LOCALE = 'en_US'
+        )
+    </sql>
+
+    <sql id="parameter">
+	    and (
+	        (
+		        select count(1)
+		        from TB_TEXT b
+		        where b.CODE = a.CODE and b.TEXT like '%{0}%'
+		    ) % 3 != 0
+	        or (
+		        select count(1)
+		        from TB_TEXT b
+		        where b.CODE = a.CODE and b.TEXT like '%{1}%'
+		    ) % 3 != 0
+	        or (
+		        select count(1)
+		        from TB_TEXT b
+		        where b.CODE = a.CODE and b.TEXT like '%{2}%'
+		    ) % 3 != 0
+	        or (
+		        select count(1)
+		        from TB_TEXT b
+		        where b.CODE = a.CODE and b.TEXT like '%{3}%'
+		    ) % 3 != 0
+	        or (
+		        select count(1)
+		        from TB_TEXT b
+		        where b.CODE = a.CODE and b.TEXT like '%{4}%'
+		    ) % 3 != 0
+	        or (
+		        select count(1)
+		        from TB_TEXT b
+		        where b.CODE = a.CODE and b.TEXT like '%{5}%'
+		    ) % 3 != 0
+		)
+    </sql>
+
+    <sql id="noreferer">
+        and (select count(1) from TB_REFERER b where b.code = a.CODE) = 0
+    </sql>
+
+    <sql id="tab">
+        and exists (
+            select 1
+            from TB_TEXT b
+            where b.CODE = a.CODE and b.TEXT like '%\t%'
+        )
+    </sql>
+
+    <sql id="newline">
+        and exists (
+            select 1
+            from TB_TEXT b
+            where b.CODE = a.CODE and (b.TEXT like '%\r%' or b.TEXT like '%\n%')
+        )
+    </sql>
+
+    <sql id="doublespace">
+        and exists (
+            select 1
+            from TB_TEXT b
+            where b.CODE = a.CODE and b.TEXT like '%  %'
+        )
+    </sql>
+
+    <sql id="edgespace">
+        and exists (
+            select 1
+            from TB_TEXT b
+            where b.CODE = a.CODE and (b.TEXT like ' %' or  b.TEXT like '% ')
+        )
+    </sql>
+
+    <sql id="quote">
+        and exists (
+            select 1
+            from TB_TEXT b
+            where b.CODE = a.CODE and (b.TEXT like '%\'%' or b.TEXT like '%"%')
+        )
+    </sql>
 </mapper>

@@ -37,6 +37,14 @@ public class DataController {
 		return searchService.list(query, category, limit);
 	}
 
+	@RequestMapping(value="/clean", method=RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public Map<String, Object> clean(
+			@RequestParam(value="c", required=false) String condition
+			, @RequestParam(value="l", required=false) int limit
+			) {
+		return searchService.list(condition, limit);
+	}
+
 	@RequestMapping(value="/text/{code}/{locale}", method=RequestMethod.PUT, produces = "application/json; charset=UTF-8")
 	public TextVO update(@PathVariable(value="code") String code
 			, @PathVariable(value="locale") String locale

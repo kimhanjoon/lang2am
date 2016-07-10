@@ -130,6 +130,19 @@ textarea.text-edittext {
         <div class="card hoverable">
           <div class="card-content">
             <div class="card-title">
+              <a id="currentSearchCondition" class='dropdown-button btn' href='#' data-activates='searchCondition'>Search</a>
+              <ul id='searchCondition' class='dropdown-content'>
+                <li><a href="#!" data-condition="search">Search</a></li>
+                <li><a href="#!" data-condition="chinese">Chinese</a></li>
+                <li><a href="#!" data-condition="parameter">Parameter</a></li>
+                <li><a href="#!" data-condition="noreferer">No Referer</a></li>
+                <li><a href="#!" data-condition="tab">Tab</a></li>
+                <li><a href="#!" data-condition="newline">Newline</a></li>
+                <li><a href="#!" data-condition="doublespace">Double space</a></li>
+                <li><a href="#!" data-condition="edgespace">Edge space</a></li>
+                <li><a href="#!" data-condition="quote">Quote</a></li>
+              </ul>
+              <div id="searchKeyword" style="display: inline-block;">
               <div class="input-field" id="search_box" >
                 <input id="search" type="text" placeholder="Search" size="50" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ctrl+Alt+F">
                 <i class="material-icons search small">search</i>
@@ -141,7 +154,7 @@ textarea.text-edittext {
               <div style="display: inline-block; margin-left: 15px;">
                 <input id="categoryText" type="checkbox" class="filled-in search-category" checked="checked" value="text"/><label for="categoryText">Text</label>
               </div>
-
+</div>
               <div class="right">
                 <div class="valign-wrapper">
                   <div class="valign right-align" id="results-count"></div>

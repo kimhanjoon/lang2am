@@ -82,6 +82,7 @@ $(function() {
     });
 
 	var _last_query = "";
+	var _last_queryRegExpList = null;
 	search_texts("");
 	$("#search").keyup( _.debounce(function() {
 		var query = $("#search").val();
@@ -93,10 +94,12 @@ $(function() {
 	}, 1000));
 
 	function search_texts(query, limit) {
-		_last_query = query;
-		var queryRegExpList = _.map(query.replace(/ +/g, " ").trim().split(" "), function(e) {
+		query = query.replace(/ +/g, " ").trim();
+		_last_query = query
+		var queryRegExpList = _.map(query.split(" "), function(e) {
 			return new RegExp("("+escapeRegExp(_.escape(e))+")", "gi");
 		});
+		_last_queryRegExpList = queryRegExpList;
 		console.log(query, " => ", queryRegExpList);
 
 		var category = _.map($(".search-category:checked"), function(e) {
@@ -209,7 +212,7 @@ $(function() {
     	.done(function(data) {
     		Materialize.toast('Saved.', 1500);
     		$td.find(".text-edittext, .edittext").remove();
-    		$td.find(".text").text(data.text).addClass("red-text").show();
+    		$td.find(".text").html(highlight(data.text, _last_queryRegExpList)).show();
     		$td.find("i.edit").css('display','');
     	})
     	.fail(function(jqXHR) {

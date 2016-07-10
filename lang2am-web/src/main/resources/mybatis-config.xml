@@ -5,7 +5,6 @@
     	<setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
     <mappers>
-        <mapper resource="com/lang2am/service/RefererDAO.xml"/>
         <mapper resource="com/lang2am/service/SearchDAO.xml"/>
         <mapper resource="com/lang2am/service/TextDAO.xml"/>
     </mappers>

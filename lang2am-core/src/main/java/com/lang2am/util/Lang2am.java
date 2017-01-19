@@ -1,8 +1,14 @@
 package com.lang2am.util;
 
+import org.ehcache.Cache;
+import org.ehcache.CacheManager;
+import org.ehcache.config.builders.CacheConfigurationBuilder;
+import org.ehcache.config.builders.CacheManagerBuilder;
+import org.ehcache.config.builders.ResourcePoolsBuilder;
+
 public class Lang2am {
 
-	private static TextSupplier textSupplier = null;
+	private static final TextSupplier textSupplier;
 	static {
 		if( "JSON".equals(Lang2amProperty.getValue("lang2am.supplier.type")) ) {
 			textSupplier = new JsonTextSupplier();
@@ -13,10 +19,21 @@ public class Lang2am {
 		else if( "DBCP2".equals(Lang2amProperty.getValue("lang2am.supplier.type")) ) {
 			textSupplier = new Dbcp2TextSupplier();
 		}
+		else {
+			textSupplier = new EchoTextSupplier();
+		}
+	}
+
+	private static final Cache<String, String> textCache;
+	static {
+		final String CACHE_NAME = "code:locale";
+		CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
+				.withCache(CACHE_NAME, CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, String.class, ResourcePoolsBuilder.heap(100)))
+				.build(true);
+		textCache = cacheManager.getCache(CACHE_NAME, String.class, String.class);
 	}
 
 	private Lang2am() {
-		super();
 	}
 
 	public static String getText(final String locale, final String code, final Object... param) {
@@ -27,11 +44,22 @@ public class Lang2am {
 			codeWithoutOption = code.substring(0, code.length() - 1);
 		}
 
+		String text = null;
+
+		// check if text is cached
+		String key = codeWithoutOption + ":" + locale;
+		if( textCache.containsKey(key) ) {
+			text = textCache.get(key);
+		}
+
 		// retrieve text
-		String text = textSupplier.getText(locale, codeWithoutOption );
+		text = textSupplier.getText(locale, codeWithoutOption );
 		if( text == null ) {
 			return code;
 		}
+
+		// cache text
+		textCache.put(key, text);
 
 		// nested code
 		while( text.contains("{{") && text.contains("}}") ) {

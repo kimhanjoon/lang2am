@@ -9,12 +9,14 @@ public class Lang2amProperty {
 
 	private static Properties prop = new Properties();
 	static {
-		try {
+		try (
 			InputStream stream = Lang2amProperty.class.getClassLoader().getResourceAsStream("lang2am.properties");
 			InputStreamReader inputStreamReader = new InputStreamReader(stream, "UTF-8");
+			) {
+
 			prop.load(inputStreamReader);
 		} catch (IOException e) {
-			throw new RuntimeException("lang2am.properties is not found in the classpath", e);
+			throw new IllegalStateException("lang2am.properties is not found in the classpath", e);
 		}
 	}
 
